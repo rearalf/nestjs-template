@@ -6,5 +6,5 @@ services:
       - "5433:5432"
     environment:
       - DATABESE_HOST=${DB_HOST}
-      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
