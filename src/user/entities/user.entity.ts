@@ -1,7 +1,8 @@
+import { BaseEntity } from "src/db/entities/base.entity";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class User extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: string
 
@@ -29,13 +30,4 @@ export class User {
 
     @Column('text')
     password: string
-
-    @Column('timestamptz')
-    created_at: Date
-
-    @Column('timestamptz')
-    updated_at: Date
-
-    @Column('timestamptz')
-    deleted_at: Date
 }
