@@ -7,20 +7,23 @@ import { JoiValidationSchema } from './config/joi.validation';
 import { EnvConfiguration } from './config/env.config';
 
 import { AppService } from './app.service';
-import typeormService from './config/typeorm.service';
+import typeorm from './config/typeorm';
+
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
     ConfigModule,
     ConfigModule.forRoot({
-      load: [EnvConfiguration, typeormService],
+      load: [EnvConfiguration, typeorm],
       validationSchema: JoiValidationSchema
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('database'),
+      useFactory: (config: ConfigService) => ({ ...config.get('database'), autoLoadEntities: true }),
       inject: [ConfigService]
-    })
+    }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
