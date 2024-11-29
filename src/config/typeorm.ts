@@ -15,7 +15,7 @@ const config: DataSourceOptions | BaseDataSourceOptions = {
     synchronize: false,
     migrationsRun: false,
     entities: ["dist/**/entities/*.entity{.ts,.js}"],
-    migrations: ["dist/migrations/*{.ts,.js}"],
+    migrations: ["dist/db/migrations/*{.ts,.js}"],
     migrationsTableName: 'migrations',
     logging: true
 }
