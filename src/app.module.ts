@@ -9,7 +9,12 @@ import { EnvConfiguration } from './config/env.config';
 import { AppService } from './app.service';
 import typeorm from './config/typeorm';
 
+import { RolModule } from './rol/rol.module';
 import { UserModule } from './user/user.module';
+import { UserRolModule } from './user-rol/user-rol.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { RolPermissionsModule } from './rol-permissions/rol-permissions.module';
+import { PermissionUserModule } from './permission-user/permission-user.module';
 
 @Module({
   imports: [
@@ -23,7 +28,12 @@ import { UserModule } from './user/user.module';
       useFactory: (config: ConfigService) => ({ ...config.get('database'), autoLoadEntities: true }),
       inject: [ConfigService]
     }),
-    UserModule
+    UserModule,
+    RolModule,
+    UserRolModule,
+    PermissionsModule,
+    RolPermissionsModule,
+    PermissionUserModule
   ],
   controllers: [AppController],
   providers: [AppService],
