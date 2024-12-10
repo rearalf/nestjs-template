@@ -111,3 +111,25 @@ export class AppService {
   }
 }
 ```
+
+### Configuración de docker
+
+Por ahora solo tengo la configuración para la base de datos, más adelante se agregaran las configuraciones para el backend completo. El `docker-compase.yml` ya contiene las variables de entorno y también están en el `.env`.
+
+```YML
+services:
+  postgres:
+    image: postgres
+    container_name: ${CONTAINER_NAME}
+    ports:
+      - "5432:5432"
+    environment:
+      - DATABESE_HOST=${DB_HOST}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+```
+
+Para ejecutarlo pon en cosola:
+```
+$ docker-compose up
+```
