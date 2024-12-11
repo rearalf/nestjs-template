@@ -5,6 +5,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - DATABESE_HOST=${DB_HOST}
+      - DATABASE_HOST=${DB_HOST}
+      - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
