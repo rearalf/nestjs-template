@@ -17,7 +17,7 @@ const config: DataSourceOptions | BaseDataSourceOptions = {
   entities: ['dist/**/entities/*.entity{.ts,.js}'],
   migrations: ['dist/db/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
-  logging: true,
+  logging: process.env.LOGGING === 'true',
 };
 
 export default registerAs('database', () => config);
