@@ -2,7 +2,6 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
@@ -40,7 +39,6 @@ $ npm run test:cov
 ```
 
 ## Resources
-
 
 ## Stay in touch
 
@@ -124,12 +122,59 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - DATABESE_HOST=${DB_HOST}
+      - DATABASE_HOST=${DB_HOST}
+      - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
 ```
 
 Para ejecutarlo pon en cosola:
+
 ```
 $ docker-compose up
+```
+
+### Configuracion de TypeORM
+
+Para configurar [TypeORM](https://typeorm.io/), debemos ir al archivo `config/typeorm.ts`, dentro de el agregamos nuestra configuración.
+
+```TS
+import { BaseDataSourceOptions } from 'typeorm/data-source/BaseDataSourceOptions';
+import { DataSource, type DataSourceOptions } from 'typeorm';
+import { registerAs } from '@nestjs/config';
+import 'dotenv/config';
+
+type DatabaseType = 'postgres' | 'mongodb';
+
+// Configuración de conexión para la base de datos.
+const config: DataSourceOptions | BaseDataSourceOptions = {
+  type: (process.env.DB_TYPE as DatabaseType) || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  port: +process.env.DB_PORT || 5432,
+  database: process.env.DB_NAME || 'database-template',
+  username: process.env.DB_USERNAME || 'root',
+  password: process.env.DB_PASSWORD || 'root',
+  synchronize: false,
+  migrationsRun: false,
+  entities: ['dist/**/entities/*.entity{.ts,.js}'],
+  migrations: ['dist/db/migrations/*{.ts,.js}'],
+  migrationsTableName: 'migrations',
+  logging: process.env.LOGGING === 'true',
+};
+
+// Exporta la configuración de la base de datos como un proveedor para NestJS.
+export default registerAs('database', () => config);
+
+// Crea y exporta una instancia de conexión a la base de datos usando la configuración definida.
+// Esto permite inicializar y usar `DataSource` directamente en otros módulos.
+export const databaseConnect = new DataSource(config as DataSourceOptions);
+```
+
+### Migraciones
+
+Las migraciones las hace [TypeORM](https://typeorm.io/), primero ejecutamos el comando:
+
+```bash
+$ npm run migration:generate --name=Init
+$ npm run migration:run
 ```

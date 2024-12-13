@@ -1,7 +1,7 @@
-import 'dotenv/config';
+import { BaseDataSourceOptions } from 'typeorm/data-source/BaseDataSourceOptions';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 import { registerAs } from '@nestjs/config';
-import { BaseDataSourceOptions } from 'typeorm/data-source/BaseDataSourceOptions';
+import 'dotenv/config';
 
 type DatabaseType = 'postgres' | 'mongodb';
 
